@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 
-import {ForbiddenException} from '../common/filters/forbidden.exception'
+import {ForbiddenException} from '../common/filters/http-exception.filter'
 
 @Controller('cats')
 @Dependencies(CatsService)
@@ -42,7 +42,7 @@ export class CatsController {
   @Put(':id')
   @Bind(Param('id'), Body())
   update(id, updateCatDto) {
-    if (!updateCatDto.length) throw new ForbiddenException();
+    if (!updateCatDto.length) throw new ForbiddenException('Can not find any fields to update');
     return `This action updates a #${id} cat`;
   }
 
