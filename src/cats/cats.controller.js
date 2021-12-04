@@ -9,13 +9,16 @@ import {
   Delete,
   Bind,
   Dependencies,
-  ParseIntPipe
+  ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 
+import {RolesGuard} from '../common/guards/roles.guard'
 import {ForbiddenException} from '../common/filters/http-exception.filter'
 
 @Controller('cats')
+@UseGuards(RolesGuard)
 @Dependencies(CatsService)
 export class CatsController {
   constructor(catsService) {
