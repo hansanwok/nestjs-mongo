@@ -1,18 +1,36 @@
-import { Controller, Get, Query, Post, Body, Put, Param, Delete, Bind } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  Bind,
+  Dependencies,
+} from '@nestjs/common';
+import { CatsService } from './cats.service';
+
+import {ForbiddenException} from '../common/filters/forbidden.exception'
 
 @Controller('cats')
+@Dependencies(CatsService)
 export class CatsController {
+  constructor(catsService) {
+    this.catsService = catsService;
+  }
+
   @Post()
   @Bind(Body())
-  create(createCatDto) {
-    return 'This action adds a new cat';
+  async create(createCatDto) {
+    this.catsService.create(createCatDto);
+    return 'Add new cat success!';
   }
 
   @Get()
-  @Bind(Query())
-  findAll(query) {
-    console.log(query);
-    return [{a: 1, name: 2}, {id: 2, name: 'meow'}];
+  async findAll() {
+    return this.catsService.findAll();
   }
 
   @Get(':id')
@@ -24,6 +42,7 @@ export class CatsController {
   @Put(':id')
   @Bind(Param('id'), Body())
   update(id, updateCatDto) {
+    if (!updateCatDto.length) throw new ForbiddenException();
     return `This action updates a #${id} cat`;
   }
 
