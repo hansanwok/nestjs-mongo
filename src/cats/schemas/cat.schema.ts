@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import {ExcludeProperty} from 'nestjs-mongoose-exclude'
 
 export type CatDocument = Cat & Document;
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'createdAt' } })
 export class Cat {
   @Prop({ required: true })
   name: string;
@@ -13,12 +14,6 @@ export class Cat {
 
   @Prop()
   breed: string;
-
-  @Prop()
-  createdAt: Date;
-
-  @Prop()
-  updatedAt: Date;
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);
