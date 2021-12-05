@@ -9,8 +9,11 @@ const DB_DEV_URI = 'mongodb://localhost:27017/ChoTot';
 const DB_PRODUCTION_URI = 'mongodb+srv://hansanwok:StrongPass2021@cluster0.anltn.mongodb.net/ChoTot?retryWrites=true&w=majority'
 
 @Module({
-  imports: [MongooseModule.forRoot(DB_DEV_URI), CatsModule],
+  imports: [
+    MongooseModule.forRoot(process.env.NODE_ENV === 'production' ? DB_PRODUCTION_URI : DB_DEV_URI),
+    CatsModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
