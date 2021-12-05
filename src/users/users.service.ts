@@ -11,8 +11,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
-  async findOne(email: string): Promise<User | undefined> {
-    return this.userModel.findOne({email}).exec();
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.userModel.findOne({email}).lean().exec();
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -25,6 +25,10 @@ export class UsersService {
 
   findAll() {
     return `This action returns all users`;
+  }
+
+  async findOne(id: string): Promise<User | undefined> {
+    return this.userModel.findById(id).lean().exec();
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
