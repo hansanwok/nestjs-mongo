@@ -1,5 +1,2 @@
-export class CreateCatDto {
-  name: string;
-  age: number;
-  breed: string;
-}
+import { BaseCatDto } from "./base-cat.dto";
+export class CreateCatDto extends BaseCatDto { }
