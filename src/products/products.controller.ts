@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Request, Body, Query, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -17,7 +17,7 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Param('page') page: number) {
+  findAll(@Query('page') page: number) {
     return this.productsService.findAll(+page);
   }
 

@@ -6,7 +6,7 @@ import { Product, ProductDocument } from './schemas/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-const LIMIT_PER_PAGE = 2;
+const PER_PAGE = 2;
 
 @Injectable()
 export class ProductsService {
@@ -25,8 +25,8 @@ export class ProductsService {
     return newProduct.populate('category author', '-password');
   }
 
-  findAll(page: number): Promise<Product[]> {
-    return this.productModel.find().sort({ createdAt: 'desc' }).exec();
+  findAll(page: number = 1): Promise<Product[]> {
+    return this.productModel.find().limit(PER_PAGE).skip(PER_PAGE * (page - 1)).sort({ createdAt: 'desc' }).exec();
   }
 
   findOne(id: string): Promise<Product> {
