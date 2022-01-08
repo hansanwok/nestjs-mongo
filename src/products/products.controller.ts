@@ -17,8 +17,8 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Param('page') page: number) {
+    return this.productsService.findAll(+page);
   }
 
   @Get(':id')
