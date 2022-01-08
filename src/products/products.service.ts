@@ -6,7 +6,7 @@ import { Product, ProductDocument } from './schemas/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-const PER_PAGE = 2;
+const PER_PAGE = 10;
 
 @Injectable()
 export class ProductsService {
@@ -25,8 +25,13 @@ export class ProductsService {
     return newProduct.populate('category author', '-password');
   }
 
-  findAll(page: number = 1): Promise<Product[]> {
-    return this.productModel.find().limit(PER_PAGE).skip(PER_PAGE * (page - 1)).sort({ createdAt: 'desc' }).exec();
+  async findAll(page: number = 1) {
+    const pagination = await this.paginate({}, page);
+    const data = await this.productModel.find().limit(PER_PAGE).skip(PER_PAGE * (page - 1)).sort({ createdAt: 'desc' }).exec();
+    return {
+      data,
+      pagination
+    }
   }
 
   findOne(id: string): Promise<Product> {
@@ -39,5 +44,14 @@ export class ProductsService {
 
   remove(id: number) {
     return `This action removes a #${id} product`;
+  }
+
+  async paginate(options: any, page: number) {
+    const total = await this.productModel.count(options).exec();
+    const totalPages = Math.round(total / PER_PAGE)
+    return {
+      page,
+      totalPages,
+    }
   }
 }
