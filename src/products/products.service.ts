@@ -10,16 +10,25 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductsService {
   constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) { }
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(user, createProductDto: CreateProductDto): Promise<Product> {
+    const authorId = user._id;
+    const { categoryId, ...productData } = createProductDto;
+
+    const createdProduct = new this.productModel({
+      ...productData,
+      author: authorId,
+      category: categoryId
+    });
+    const newProduct = await createdProduct.save();
+    return newProduct.populate('category author', '-password');
   }
 
-  findAll() {
-    return `This action returns all products`;
+  findAll(): Promise<Product[]> {
+    return this.productModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: string): Promise<Product> {
+    return this.productModel.findById(id).populate('category author', '-password').exec()
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
