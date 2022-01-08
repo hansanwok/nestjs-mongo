@@ -16,5 +16,5 @@ export class CreateUserDto extends BaseUserDto {
   dateOfBirth: Date;
 
   @IsOptional()
-  profileUrl: string;
+  avatarUrl: string;
 }

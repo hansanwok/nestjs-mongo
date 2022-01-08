@@ -3,5 +3,5 @@ export class BaseUserDto {
   password: string;
   name: string;
   dateOfBirth: Date;
-  profileUrl: string;
+  avatarUrl: string;
 }
