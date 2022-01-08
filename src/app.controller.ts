@@ -1,4 +1,5 @@
-import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Request, Post, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {FileInterceptor} from '@nestjs/platform-express'
 
 import { LocalAuthGuard } from './auth/guards/local-auth.guard'
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
@@ -28,5 +29,12 @@ export class AppController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return this.appService.uploadImageToCloudinary(file);
   }
 }
