@@ -12,4 +12,4 @@ export class Category {
   imageUrl: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(Category);
+export const CategorySchema = SchemaFactory.createForClass(Category);
