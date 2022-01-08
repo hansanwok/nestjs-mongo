@@ -20,7 +20,7 @@ export class User {
   dateOfBirth: Date;
 
   @Prop()
-  avataUrl: string;
+  avatarUrl: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
