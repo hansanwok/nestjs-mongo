@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Product, ProductDocument } from './schemas/product.schema';
@@ -58,8 +58,21 @@ export class ProductsService {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string, user) {
+    try {
+      const currentProduct = await this.productModel.findById(id, { author: user._id }).exec();
+      if (!currentProduct) {
+        throw new UnauthorizedException();
+      }
+      const isDeleted = await this.productModel.findByIdAndDelete(id).exec();
+      if (isDeleted) {
+        return {
+          success: true
+        }
+      }
+    } catch (error) {
+      throw error
+    }
   }
 
   async paginate(options: any, page: number) {

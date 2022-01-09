@@ -40,8 +40,9 @@ export class ProductsController {
     return this.productsService.update(+id, updateProductDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.productsService.remove(id, req.user);
   }
 }
