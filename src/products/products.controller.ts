@@ -25,6 +25,11 @@ export class ProductsController {
     return this.productsService.findAll(+page, category, name);
   }
 
+  @Get(':id/related')
+  findRelated(@Param('id') id: string) {
+    return this.productsService.findRelated(id)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);

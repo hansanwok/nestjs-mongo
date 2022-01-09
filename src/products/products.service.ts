@@ -6,6 +6,8 @@ import { Product, ProductDocument } from './schemas/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
+import { Category } from '../categories/schemas/category.schema';
+
 const PER_PAGE = 10;
 
 @Injectable()
@@ -40,6 +42,11 @@ export class ProductsService {
       data,
       pagination
     }
+  }
+
+  async findRelated(id: string): Promise<Product[]> {
+    const { category }: Product = await this.productModel.findById(id).exec();
+    return this.productModel.find({ category, _id: { $ne: id } }).limit(3).sort({ createdAt: 'desc' }).exec()
   }
 
   findOne(id: string): Promise<Product> {
