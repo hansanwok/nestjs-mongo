@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User | undefined> {
-    return this.userModel.findById(id).lean().exec();
+    return this.userModel.findById(id, '-password').lean().exec();
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
