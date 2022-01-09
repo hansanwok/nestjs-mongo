@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, Body, Query, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Request, Body, Query, Patch, Param, Delete, UseGuards, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -8,7 +8,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -17,8 +17,11 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query('page') page: number) {
-    return this.productsService.findAll(+page);
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('category') category: any
+  ) {
+    return this.productsService.findAll(+page, category);
   }
 
   @Get(':id')

@@ -25,9 +25,13 @@ export class ProductsService {
     return newProduct.populate('category author', '-password');
   }
 
-  async findAll(page: number = 1) {
-    const pagination = await this.paginate({}, page);
-    const data = await this.productModel.find().limit(PER_PAGE).skip(PER_PAGE * (page - 1)).sort({ createdAt: 'desc' }).exec();
+  async findAll(page: number, category: any) {
+    const queryOptions: any = {};
+    if (category) {
+      queryOptions.category = category;
+    }
+    const data = await this.productModel.find(queryOptions).limit(PER_PAGE).skip(PER_PAGE * (page - 1)).sort({ createdAt: 'desc' }).exec();
+    const pagination = await this.paginate(queryOptions, page);
     return {
       data,
       pagination
@@ -51,6 +55,7 @@ export class ProductsService {
     const totalPages = Math.round(total / PER_PAGE)
     return {
       page,
+      totalCount: total,
       totalPages,
     }
   }
