@@ -14,12 +14,9 @@ export class ProductsService {
 
   async create(user, createProductDto: CreateProductDto): Promise<Product> {
     const authorId = user._id;
-    const { categoryId, ...productData } = createProductDto;
-
     const createdProduct = new this.productModel({
-      ...productData,
+      ...createProductDto,
       author: authorId,
-      category: categoryId
     });
     const newProduct = await createdProduct.save();
     return newProduct.populate('category author', '-password');
@@ -54,8 +51,12 @@ export class ProductsService {
     return this.productModel.findById(id).populate('category author', '-password').exec()
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto, user) {
+    const currentProduct = await this.productModel.findById(id, { author: user._id }).exec();
+    if (!currentProduct) {
+      throw new UnauthorizedException();
+    }
+    return this.productModel.findByIdAndUpdate(id, updateProductDto, { new: true }).populate('category author', '-password').exec();
   }
 
   async remove(id: string, user) {

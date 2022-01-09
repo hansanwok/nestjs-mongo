@@ -1,3 +1,5 @@
+import {Category} from '../../categories/schemas/category.schema'
+
 import { IsNotEmpty, IsOptional } from 'class-validator';
 
 import { BaseProductDto } from './base-product.dto'
@@ -19,5 +21,5 @@ export class CreateProductDto extends BaseProductDto {
   description: string;
 
   @IsNotEmpty()
-  categoryId: string;
+  category: Category;
 }
