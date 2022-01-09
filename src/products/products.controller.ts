@@ -19,9 +19,10 @@ export class ProductsController {
   @Get()
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('category') category: any
+    @Query('category') category: any,
+    @Query('name') name: string
   ) {
-    return this.productsService.findAll(+page, category);
+    return this.productsService.findAll(+page, category, name);
   }
 
   @Get(':id')
