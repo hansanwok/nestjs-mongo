@@ -12,7 +12,7 @@ export class CreateUserDto extends BaseUserDto {
   @IsOptional()
   name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   phone: string;
 
   @IsOptional()
