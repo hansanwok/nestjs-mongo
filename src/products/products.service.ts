@@ -25,13 +25,16 @@ export class ProductsService {
     return newProduct.populate('category author', '-password');
   }
 
-  async findAll({ page, category, name, userId }: { page: number, category: any, name: string, userId?: string }) {
+  async findAll({ page, category, name, userId }: { page: number, category?: any, name?: string, userId?: string }) {
     const queryOptions: any = {};
     if (category) {
       queryOptions.category = category;
     }
     if (name) {
       queryOptions.name = { $regex: name, $options: 'i' }
+    }
+    if (userId) {
+      queryOptions.author = userId;
     }
 
     const data = await this.productModel.find(queryOptions).limit(PER_PAGE).skip(PER_PAGE * (page - 1)).sort({ createdAt: 'desc' }).exec();

@@ -8,6 +8,7 @@ import { ProductsController } from './products.controller';
 @Module({
   imports: [MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }])],
   controllers: [ProductsController],
-  providers: [ProductsService]
+  providers: [ProductsService],
+  exports: [ProductsService],
 })
 export class ProductsModule { }
