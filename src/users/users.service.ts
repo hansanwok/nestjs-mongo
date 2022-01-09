@@ -12,14 +12,14 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    return this.userModel.findOne({email}).lean().exec();
+    return this.userModel.findOne({ email }).lean().exec();
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const {password, ...userInfo} = createUserDto;
+    const { password, ...userInfo } = createUserDto;
     const saltRounds = 10;
     const hashPassword = await bcrypt.hash(password, saltRounds)
-    const createdUser = new this.userModel({...userInfo, password: hashPassword});
+    const createdUser = new this.userModel({ ...userInfo, password: hashPassword });
     return createdUser.save()
   }
 
@@ -28,11 +28,11 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User | undefined> {
-    return this.userModel.findById(id, '-password').lean().exec();
+    return this.userModel.findById(id).exec();
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
   }
 
   remove(id: string) {

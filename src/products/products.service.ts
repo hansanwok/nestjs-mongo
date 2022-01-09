@@ -6,8 +6,6 @@ import { Product, ProductDocument } from './schemas/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-import { Category } from '../categories/schemas/category.schema';
-
 const PER_PAGE = 10;
 
 @Injectable()
