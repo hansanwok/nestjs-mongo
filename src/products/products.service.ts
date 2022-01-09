@@ -78,11 +78,11 @@ export class ProductsService {
 
   async paginate(options: any, page: number) {
     const total = await this.productModel.count(options).exec();
-    const totalPages = Math.round(total / PER_PAGE)
+    const totalPages = Math.round(total / PER_PAGE) || 1
     return {
       page,
       totalCount: total,
-      totalPages,
+      totalPages: totalPages,
     }
   }
 }
