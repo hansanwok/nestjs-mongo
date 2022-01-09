@@ -22,7 +22,7 @@ export class ProductsController {
     @Query('category') category: any,
     @Query('name') name: string
   ) {
-    return this.productsService.findAll(+page, category, name);
+    return this.productsService.findAll({ page, category, name });
   }
 
   @Get(':id/related')

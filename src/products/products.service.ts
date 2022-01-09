@@ -25,7 +25,7 @@ export class ProductsService {
     return newProduct.populate('category author', '-password');
   }
 
-  async findAll(page: number, category: any, name: string) {
+  async findAll({ page, category, name, userId }: { page: number, category: any, name: string, userId?: string }) {
     const queryOptions: any = {};
     if (category) {
       queryOptions.category = category;
