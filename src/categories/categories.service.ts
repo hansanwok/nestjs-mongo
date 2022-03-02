@@ -18,8 +18,8 @@ export class CategoriesService {
     return this.categoryModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  findOne(id: string): Promise<Category> {
+    return this.categoryModel.findById(id).exec();
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
