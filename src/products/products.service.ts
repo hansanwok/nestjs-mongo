@@ -28,7 +28,7 @@ export class ProductsService {
       queryOptions.category = category;
     }
     if (name) {
-      queryOptions.name = { $regex: name, $options: 'i' }
+      queryOptions.$text = { $search: name }
     }
     if (userId) {
       queryOptions.author = userId;
