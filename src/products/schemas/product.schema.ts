@@ -35,6 +35,6 @@ export class Product {
 
 const ProductSchema = SchemaFactory.createForClass(Product);
 
-ProductSchema.index({ name: 'text' });
+// ProductSchema.index({ name: 'text' });
 
 export { ProductSchema }
