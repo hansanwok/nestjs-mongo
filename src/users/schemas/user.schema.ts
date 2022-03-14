@@ -13,16 +13,16 @@ export class User {
   @ExcludeProperty()
   password: string;
 
-  @Prop()
+  @Prop({default: null})
   name: string;
 
-  @Prop()
+  @Prop({default: null})
   phone: string;
 
-  @Prop()
+  @Prop({default: null})
   dateOfBirth: Date;
 
-  @Prop()
+  @Prop({default: null})
   avatarUrl: string;
 }
 
