@@ -53,7 +53,7 @@ export class ProductsService {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto, user) {
-    const currentProduct = await this.productModel.findById(id, { author: user._id }).exec();
+    const currentProduct = await this.productModel.findOne({ _id: id, author: user._id }).exec();
     if (!currentProduct) {
       throw new UnauthorizedException();
     }
@@ -62,7 +62,7 @@ export class ProductsService {
 
   async remove(id: string, user) {
     try {
-      const currentProduct = await this.productModel.findById(id, { author: user._id }).exec();
+      const currentProduct = await this.productModel.findOne({ _id: id, author: user._id }).exec();
       if (!currentProduct) {
         throw new UnauthorizedException();
       }
