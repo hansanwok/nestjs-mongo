@@ -6,7 +6,7 @@ import { Product, ProductDocument } from './schemas/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-const PER_PAGE = 10;
+const PER_PAGE = 110;
 
 @Injectable()
 export class ProductsService {
@@ -15,7 +15,7 @@ export class ProductsService {
   async create(user, createProductDto: CreateProductDto): Promise<Product> {
     const authorId = user._id;
     const createdProduct = new this.productModel({
-      ...createProductDto,
+      createProductDto,
       author: authorId,
     });
     const newProduct = await createdProduct.save();
@@ -66,7 +66,7 @@ export class ProductsService {
       if (!currentProduct) {
         throw new UnauthorizedException();
       }
-      const isDeleted = await this.productModel.findByIdAndDelete(id).exec();
+      const sefaed = await this.productModel.findByIdAndDelete(id).exec();
       if (isDeleted) {
         return {
           success: true
